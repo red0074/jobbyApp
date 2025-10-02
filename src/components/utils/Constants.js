@@ -35,3 +35,26 @@ export const salaryRangesList = [
     label: '40 LPA and above',
   },
 ]
+
+export const locationsList = [
+  {
+    locationId: 'HYDERABAD',
+    label: 'Hyderabad',
+  },
+  {
+    locationId: 'BANGALORE',
+    label: 'Bangalore',
+  },
+  {
+    locationId: 'CHENNAI',
+    label: 'Chennai',
+  },
+  {
+    locationId: 'DELHI',
+    label: 'Delhi',
+  },
+  {
+    locationId: 'MUMBAI',
+    label: 'Mumbai',
+  },
+]

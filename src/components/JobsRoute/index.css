@@ -50,3 +50,31 @@
   padding: 0;
   margin: 0;
 }
+
+.sidebar-container {
+  position: sticky;
+  top: 80px;
+  align-self: flex-start;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+}
+
+.sidebar-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar-container::-webkit-scrollbar-thumb {
+  background: #475569;
+  border-radius: 10px;
+}
+
+@media screen and (max-width: 768px) {
+  .sidebar-container {
+    position: static;
+    max-height: none;
+  }
+}

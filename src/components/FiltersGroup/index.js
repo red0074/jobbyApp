@@ -1,55 +1,95 @@
+import {
+  employmentTypesList,
+  salaryRangesList,
+  locationsList,
+} from '../utils/Constants'
 import './index.css'
-import {employmentTypesList, salaryRangesList} from '../utils/Constants'
 
 const FiltersGroup = props => {
-  const {selectedTypes, selectedSalary, onChangeType, onChangeSalary} = props
+  const {
+    selectedTypes,
+    selectedSalary,
+    selectedLocations,
+    onChangeType,
+    onChangeSalary,
+    onChangeLocation,
+  } = props
 
-  const renderEmploymentTypes = () =>
-    employmentTypesList.map(each => {
-      const onTypeChange = () => onChangeType(each.employmentTypeId)
-      return (
-        <li key={each.employmentTypeId} className="filter-item">
-          <input
-            type="checkbox"
-            id={each.employmentTypeId}
-            checked={selectedTypes.includes(each.employmentTypeId)}
-            onChange={onTypeChange}
-            className="checkbox"
-          />
-          <label htmlFor={each.employmentTypeId} className="filter-label">
-            {each.label}
-          </label>
-        </li>
-      )
-    })
+  const renderEmploymentTypes = () => (
+    <div className="filter-group">
+      <h1 className="filter-heading">Type of Employment</h1>
+      <ul className="filter-list">
+        {employmentTypesList.map(type => (
+          <li key={type.employmentTypeId} className="filter-item">
+            <input
+              type="checkbox"
+              id={type.employmentTypeId}
+              className="filter-checkbox"
+              checked={selectedTypes.includes(type.employmentTypeId)}
+              onChange={() => onChangeType(type.employmentTypeId)}
+            />
+            <label htmlFor={type.employmentTypeId} className="filter-label">
+              {type.label}
+            </label>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
 
-  const renderSalaryRanges = () =>
-    salaryRangesList.map(each => {
-      const onSalaryChange = () => onChangeSalary(each.salaryRangeId)
-      return (
-        <li key={each.salaryRangeId} className="filter-item">
-          <input
-            type="radio"
-            name="salary"
-            id={each.salaryRangeId}
-            checked={selectedSalary === each.salaryRangeId}
-            onChange={onSalaryChange}
-            className="radio"
-          />
-          <label htmlFor={each.salaryRangeId} className="filter-label">
-            {each.label}
-          </label>
-        </li>
-      )
-    })
+  const renderSalaryRanges = () => (
+    <div className="filter-group">
+      <h1 className="filter-heading">Salary Range</h1>
+      <ul className="filter-list">
+        {salaryRangesList.map(range => (
+          <li key={range.salaryRangeId} className="filter-item">
+            <input
+              type="radio"
+              id={range.salaryRangeId}
+              name="salary"
+              className="filter-radio"
+              checked={selectedSalary === range.salaryRangeId}
+              onChange={() => onChangeSalary(range.salaryRangeId)}
+            />
+            <label htmlFor={range.salaryRangeId} className="filter-label">
+              {range.label}
+            </label>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+
+  const renderLocations = () => (
+    <div className="filter-group">
+      <h1 className="filter-heading">Location</h1>
+      <ul className="filter-list">
+        {locationsList.map(location => (
+          <li key={location.locationId} className="filter-item">
+            <input
+              type="checkbox"
+              id={location.locationId}
+              className="filter-checkbox"
+              checked={selectedLocations.includes(location.locationId)}
+              onChange={() => onChangeLocation(location.locationId)}
+            />
+            <label htmlFor={location.locationId} className="filter-label">
+              {location.label}
+            </label>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
 
   return (
-    <div className="filters-group">
-      <h1 className="filter-heading">Type of Employment</h1>
-      <ul className="filter-list">{renderEmploymentTypes()}</ul>
-
-      <h1 className="filter-heading">Salary Range</h1>
-      <ul className="filter-list">{renderSalaryRanges()}</ul>
+    <div className="filters-group-container">
+      <hr className="separator" />
+      {renderEmploymentTypes()}
+      <hr className="separator" />
+      {renderSalaryRanges()}
+      <hr className="separator" />
+      {renderLocations()}
     </div>
   )
 }

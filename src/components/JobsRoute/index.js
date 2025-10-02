@@ -24,6 +24,7 @@ class JobsRoute extends Component {
     apiStatus: apiStatusConstants.initial,
     employmentTypes: [],
     minimumPackage: '',
+    activeLocations: [],
     searchInput: '',
   }
 
@@ -33,11 +34,16 @@ class JobsRoute extends Component {
 
   getJobs = async () => {
     this.setState({apiStatus: apiStatusConstants.inProgress})
-
     const jwtToken = Cookies.get('jwt_token')
-    const {employmentTypes, minimumPackage, searchInput} = this.state
+    const {
+      employmentTypes,
+      minimumPackage,
+      activeLocations,
+      searchInput,
+    } = this.state
     const employmentString = employmentTypes.join(',')
-    const apiUrl = `https://apis.ccbp.in/jobs?employment_type=${employmentString}&minimum_package=${minimumPackage}&search=${searchInput}`
+    const locationString = activeLocations.join(',')
+    const apiUrl = `https://apis.ccbp.in/jobs?employment_type=${employmentString}&minimum_package=${minimumPackage}&search=${searchInput}&location=${locationString}`
 
     const options = {
       headers: {
@@ -80,6 +86,15 @@ class JobsRoute extends Component {
 
   onChangeSalary = salary => {
     this.setState({minimumPackage: salary}, this.getJobs)
+  }
+
+  onChangeLocation = locationId => {
+    this.setState(prevState => {
+      const updatedLocations = prevState.activeLocations.includes(locationId)
+        ? prevState.activeLocations.filter(each => each !== locationId)
+        : [...prevState.activeLocations, locationId]
+      return {activeLocations: updatedLocations}
+    }, this.getJobs)
   }
 
   onChangeSearchInput = event => {
@@ -125,7 +140,12 @@ class JobsRoute extends Component {
   }
 
   render() {
-    const {employmentTypes, minimumPackage, searchInput} = this.state
+    const {
+      employmentTypes,
+      minimumPackage,
+      activeLocations,
+      searchInput,
+    } = this.state
 
     return (
       <>
@@ -136,8 +156,10 @@ class JobsRoute extends Component {
             <FiltersGroup
               selectedTypes={employmentTypes}
               selectedSalary={minimumPackage}
+              selectedLocations={activeLocations}
               onChangeType={this.onChangeEmployment}
               onChangeSalary={this.onChangeSalary}
+              onChangeLocation={this.onChangeLocation}
             />
           </div>
           <div className="jobs-content-section">
